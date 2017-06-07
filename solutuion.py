@@ -19,6 +19,48 @@ class Solution(object):
 		# type n: int
 		# rtype: List[Point]
 
+		# Find base point
+		ymin = points[0].y
+		min = 0
+		for i in range(1, n):
+			y = points[i].y
+			# pick the bottom most point, or chose the left most
+			# point in tie
+			if y < ymin or (ymin == y and points[i].x < points[min].x):
+				ymin = points[i].y
+				min = i
+
+		# swap base point to the front of the list
+		self.swap(points[0], points[min])
+
+		# Sort the rest of points based on the slope
+		base = points[0]
+		points[1:] = sorted(points[1:], key=lambda p1,p2: self.compare(base,p1,p2))
+
+		# On each line going outward from base point, remove all points but
+		# the furthest one.
+		m = 1
+		for i in range(1, n):
+			# remove points
+			while i < n-1 and self.orientation(base, points[i], points[i+1]) == 0:
+				i += 1
+			points[m] = points[i]
+			m += 1
+
+		# if m < 3, return failure
+		if m < 3: return
+
+		# Create an empty stack and push first three points
+		stack = [points[0], points[1], points[2]]
+		# Process the rest of points
+		for i in range(3, m):
+			while self.orientation(self.next_to_top(stack), stack[-1], points[i]) != 2:
+				stack.pop()
+			stack.append(points[i])
+
+		# stack now contains result points. Print stack
+		for p in stack:
+			print (p.x, p.y)
 
 
 
@@ -51,7 +93,7 @@ class Solution(object):
 
 	# compare() compares two points against base point.
 	# return -1 or 1 based on position
-	def compare(self, p1, p2):
+	def compare(self, base, p1, p2):
 		val = self.orientation(base, p1, p2)
 		if val == 0:
 			if self.sq_dist(base, p2) >= self.sq_dist(base, p1): return -1
