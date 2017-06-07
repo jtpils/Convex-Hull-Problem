@@ -1,0 +1,26 @@
+Sample Testing Input and Their Output:
+
+Part 1:
+
+Input: 
+[Point(0,3), Point(1,1), Point(2,2), Point(4,4), Point(0,0), Point(1,2), Point(3,1), Point(3,3)]
+
+Output:
+Corner Points of the Convex Hull:
+[(0, 0), (3, 1), (4, 4), (0, 3)]
+
+Part 2:
+Input: 
+[[ 0.44098657  0.21837341]]
+
+Output:
+In Convex Hull?
+True
+
+Part 3:
+
+Input:
+[[ 0.33629297  0.50238744  0.8067079 ]]
+
+Output:
+[ True]
